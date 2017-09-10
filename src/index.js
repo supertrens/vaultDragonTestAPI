@@ -24,8 +24,8 @@ app.use(bodyParser.json({
 /*============= PASSPORT CONFIG ==============================*/
 
 
-/*============= API ENDPOINT object ==========================*/
-app.use("/v1" , routes);
+/*============= API ENDPOINT =================================*/
+app.use( routes);
 
 
 /*============= LAUNCH THE SERVER ============================*/

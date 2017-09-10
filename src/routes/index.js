@@ -16,7 +16,7 @@ initializeDb(db=> {
 	//internal middleware
 	router.use(middleware({config , db}));
 
-	//api endpoint v1(/v1)
+	//api endpoint vaultDragon(/vaultDragonObject)
 	router.use("/vaultDragonObject" , VaultDragonObject({config , db}));
 });
 
