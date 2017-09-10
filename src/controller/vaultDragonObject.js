@@ -50,5 +50,45 @@ export default({config , db}) =>{
 		});
 	});
 
+
+/*======================= UPDATE =====================================*/
+
+	//"/vaultDragon/:id"  -Put
+	api.put("/:id" ,(req ,res) =>{
+		VaultDragonObject.findById(req.params.id , (err ,vaultDragonObject) =>{
+			if(err)
+				res.send(err);
+
+			//update the value
+			vaultDragonObject.mykey = req.body.mykey;
+
+			vaultDragonObject.save(err =>{
+				if(err)
+					res.send(err);
+
+				//If no error I send the Item updated
+				res.json(vaultDragonObject);
+		
+
+			});
+		});
+	});
+
+
+	/*======================= DELETE =====================================*/
+	//Not required from Vault Dragon
+	api.delete("/:id" , (req , res) => {
+		VaultDragonObject.remove({
+			_id: req.params.id
+		}, (err, vaultDragonObject) => {
+			if(err)
+				res.send(err);
+
+			//send a json mesage to inform that the object has been removed
+			res.json({ mesage : "Object successfully removed!"});
+		});
+	});
+
+
 	return api;
 }
