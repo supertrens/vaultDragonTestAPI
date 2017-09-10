@@ -25,7 +25,7 @@ app.use(bodyParser.json({
 
 
 /*============= API ENDPOINT object ==========================*/
-app.use("/object" , routes);
+app.use("/v1" , routes);
 
 
 /*============= LAUNCH THE SERVER ============================*/

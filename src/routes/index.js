@@ -5,7 +5,7 @@ import express 		from 	"express";
 import config 				from 	"../config";
 import middleware			from 	"../middleware";
 import initializeDb 		from 	"../db";
-import VaultDragonObject 	from 	"../controller/VaultDragonObject";
+import VaultDragonObject 	from 	"../controller/vaultDragonObject";
 
 
 let router = express();
@@ -17,7 +17,7 @@ initializeDb(db=> {
 	router.use(middleware({config , db}));
 
 	//api endpoint v1(/v1)
-	router.use("/object" , VaultDragonObject({config , db}));
+	router.use("/vaultDragonObject" , VaultDragonObject({config , db}));
 });
 
 
