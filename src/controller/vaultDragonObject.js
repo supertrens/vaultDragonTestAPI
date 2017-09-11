@@ -30,6 +30,7 @@ export default({config , db}) =>{
 			if(err)
 				res.json({'ERROR': err});
 
+			//If no error we send this json response the client
 			res.json({key : myKey , value: myValue, timestamp : time})
 		
 		});
@@ -38,41 +39,43 @@ export default({config , db}) =>{
 
 /*======================= READ =====================================*/
 
-	//"/vaultDragonObject" - Read all (get)
+	//**** "/vaultDragonObject" - Read all (get)
 	api.get("/" , (req , res) =>{
 		VaultDragonObject.find({} ,(err , vaultDragonObjects) =>{
 
 			if(err)
 				res.json({'ERROR': err});
+
 			//Print out all the object in the db if there is no error
 			res.json(vaultDragonObjects);
 		});
 	});
 
 
-//"/vaultDragonObject/:myKey?timestamp" 
-	api.get("/:myKey?timestamp" , (req ,res ) =>{
-
-	    //the query from the key in the Url
-		let query = {key : req.params.myKey};
-		let time  = req.params.timestamp;
-
-		console.log("The time" +time);
-
-		//to precise that I only need the value field
-		let field = {value :1 , _id : 0  };
-	});
 
 
-	//"/vaultDragonObject/:myKey" -Read 1 (get)
+	//**** "/vaultDragonObject/:myKey" -Read 1 (get)
 	api.get('/:myKey' , (req , res) => {
 
-		//the query from the key in the Url
-		let query = {key : req.params.myKey};
+		// we try to get the timestamp from the query string if any
+		let timestamp = req.query.timestamp;
 
-		//to precise that I only need the value field
+		/*
+		 * This ternaire expression is really important
+		 * the variable query represents the query string that will be sent to the db.
+		 * If from the url there is a query string i.e (timestamp != undefined)
+		 * we will query the latest value of the given key before the given time.
+		 * otherwise we just query for the latest value of the given key from the endpoint
+		 */
+		let query = (timestamp === undefined) ?
+					{key : req.params.myKey}  :
+					{key : req.params.myKey , time : {$lte : timestamp}};
+
+
+		// to precise that we only need the value field
 		let field = {value :1 , _id : 0  };
 
+         //condition to have the result sorting from most recent to the latest one
 		let mySort = {time : -1};
 
 	
@@ -89,12 +92,10 @@ export default({config , db}) =>{
 	});
 
 
-	
-
-
 
 /*======================= UPDATE =====================================*/
 
+   //not required from Vault Dragon for the test
 	//"/vaultDragon/:id"  -Put
 	api.put("/:id" ,(req ,res) =>{
 		VaultDragonObject.findById(req.params.id , (err ,vaultDragonObject) =>{
