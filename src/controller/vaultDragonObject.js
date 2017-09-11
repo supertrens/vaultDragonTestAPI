@@ -18,12 +18,13 @@ export default({config , db}) =>{
 		let myKey = Object.keys(req.body)[0];
 		//take the value of the dynamic key
 		let myValue = req.body[myKey];
-		//timestamp
-		let time = Date.now();
+	
 
 		newVaulDragonObject.key 	= myKey;
 		newVaulDragonObject.value 	= myValue;
-		newVaulDragonObject.time    = time;
+
+		//default tiem from the schema
+		let time = newVaulDragonObject.time ;   
 
 
 		newVaulDragonObject.save(err => {
